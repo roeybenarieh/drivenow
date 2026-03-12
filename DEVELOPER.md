@@ -52,26 +52,20 @@ A diagram illustrating the Architecture I will be using:
 flowchart LR
     FA(["FastAPI\nREST API"])
     MQ(["RabbitMQ\nConsumer"])
-    CMD_HTTP["‹ Command DTOs ›\nHTTP Port"]
-    CMD_AMQP["‹ Command DTOs ›\nAMQP Port"]
-    UC{{"Application Layer\n──────────────────\nCarUseCases\nRentalUseCases"}}
-    DM["Domain Layer\n──────────────────\nCar · Rental\nCarStatus\nRentalService"]
-    UOW["‹ UnitOfWork Port ›"]
+    CMD_HTTP["HTTP Port"]
+    CMD_AMQP["AMQP Port"]
+    subgraph AppLayer["Application Layer"]
+        subgraph DomainLayer["Domain Layer"]
+            DM["Car · Rental\nCarStatus\nRentalService"]
+        end
+    end
+    UOW["UnitOfWork Port"]
     PG[("PostgreSQL\nSQLAlchemy + asyncpg")]
     FA -- " HTTP request " --> CMD_HTTP
     MQ -- " AMQP message " --> CMD_AMQP
-    CMD_HTTP & CMD_AMQP --> UC
-    UC <--> DM
-    UC --> UOW
-    UOW -. " implemented by " .-> PG
-    style FA fill: #dbeafe, stroke: #3b82f6
-    style MQ fill: #dbeafe, stroke: #3b82f6
-    style CMD_HTTP fill: #fef9c3, stroke: #ca8a04, stroke-dasharray: 5
-    style CMD_AMQP fill: #fef9c3, stroke: #ca8a04, stroke-dasharray: 5
-    style UC fill: #dcfce7, stroke: #16a34a, stroke-width: 2
-    style DM fill: #d1fae5, stroke: #16a34a
-    style UOW fill: #fef9c3, stroke: #ca8a04, stroke-dasharray: 5
-    style PG fill: #ede9fe, stroke: #7c3aed
+    CMD_HTTP & CMD_AMQP --> AppLayer
+    AppLayer --> UOW
+    UOW --> PG
 ```
 
 ### business logic
