@@ -1,0 +1,26 @@
+[project]
+name = "drivenow"
+version = "0.1.0"
+description = "car rental application that manages a fleet of vehicles"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi>=0.135.1",
+    "uvicorn>=0.41.0",
+    "pydantic>=2.12.5",
+    "pydantic-settings>=2.13.1",
+    "pyyaml>=6.0",
+    "sqlalchemy[asyncio]>=2.0",
+    "psycopg[binary]>=3.3.3",
+    "aio-pika>=9.6.1",
+    "dependency-injector>=4.41.0",
+    "opentelemetry-sdk>=1.40.0",
+    "opentelemetry-instrumentation-fastapi>=0.61b0",
+    "opentelemetry-instrumentation-sqlalchemy>=0.61b0",
+    "opentelemetry-exporter-prometheus>=0.61b0",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=9.0.2",
+]
